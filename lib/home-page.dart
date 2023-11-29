@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:presensi/history-page.dart';
 import 'package:presensi/models/home-response.dart';
 import 'package:presensi/setting-page.dart';
 import 'package:presensi/simpan-page.dart';
@@ -55,6 +56,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Text("Home"),
+      // ),
       body: FutureBuilder(
           future: getData(),
           builder: (context, snapshot) {
@@ -67,23 +71,6 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FutureBuilder(
-                        future: _name,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<String> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else {
-                            if (snapshot.hasData) {
-                              print(snapshot.data);
-                              return Text(snapshot.data!,
-                                  style: TextStyle(fontSize: 18));
-                            } else {
-                              return Text("-", style: TextStyle(fontSize: 18));
-                            }
-                          }
-                        }),
                     SizedBox(
                       height: 20,
                     ),
@@ -156,33 +143,32 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Text("Riwayat Presensi"),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: riwayat.length,
-                        itemBuilder: (context, index) => Card(
-                          child: ListTile(
-                            leading: Text(riwayat[index].tanggal),
-                            title: Row(children: [
-                              Column(
-                                children: [
-                                  Text(riwayat[index].masuk,
-                                      style: TextStyle(fontSize: 18)),
-                                  Text("Masuk", style: TextStyle(fontSize: 14))
-                                ],
-                              ),
-                              SizedBox(width: 20),
-                              Column(
-                                children: [
-                                  Text(riwayat[index].pulang,
-                                      style: TextStyle(fontSize: 18)),
-                                  Text("Pulang", style: TextStyle(fontSize: 14))
-                                ],
-                              ),
-                            ]),
-                          ),
+                    Center(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            // Container(child: Image.asset('profil.jpg')),
+                            SizedBox(height: 20),
+                            Container(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => SimpanPage()))
+                                        .then((value) {
+                                      setState(() {});
+                                    });
+                                  },
+                                  child: Text("Check In")),
+                            ),
+                          ],
                         ),
                       ),
+                    ),
+                    SizedBox(height: 20),
+                    // Text("Riwayat Presensi"),
+                    Expanded(
+                      child: Column(),
                     ),
                     Row(
                       // crossAxisAlignment: CrossAxisAlignment.center,
@@ -192,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(
-                                    builder: (context) => SimpanPage()))
+                                    builder: (context) => HistoryPage()))
                                 .then((value) {
                               setState(() {});
                             });

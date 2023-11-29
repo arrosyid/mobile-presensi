@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:presensi/history-page.dart';
 import 'package:presensi/home-page.dart';
 import 'package:presensi/login-page.dart';
 import 'package:presensi/models/home-response.dart';
@@ -121,6 +122,9 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Setting"),
+      ),
       body: FutureBuilder(
           future: getData(),
           builder: (context, snapshot) {
@@ -133,23 +137,6 @@ class _SettingPageState extends State<SettingPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FutureBuilder(
-                        future: _name,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<String> snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else {
-                            if (snapshot.hasData) {
-                              print(snapshot.data);
-                              return Text(snapshot.data!,
-                                  style: TextStyle(fontSize: 18));
-                            } else {
-                              return Text("-", style: TextStyle(fontSize: 18));
-                            }
-                          }
-                        }),
                     SizedBox(
                       height: 20,
                     ),
@@ -186,42 +173,112 @@ class _SettingPageState extends State<SettingPage> {
                         child: Column(
                       children: [
                         Card(
+                            color: Color.fromRGBO(66, 162, 232, 1),
                             child: Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              Container(child: Text("My Profile")),
-                              Container(
-                                padding: EdgeInsets.only(left: 40, right: 40),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [Text("Pegawai")],
+                              padding: EdgeInsets.all(20),
+                              child: Column(
+                                children: [
+                                  Container(
+                                      child: Text("My Profile",
+                                          style:
+                                              TextStyle(color: Colors.white))),
+                                  Container(
+                                    padding:
+                                        EdgeInsets.only(left: 40, right: 40),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Pegawai",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text("Pegawai",
+                                                style: TextStyle(
+                                                    color: Colors.white))
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text("Pegawai@gmail.com",
+                                                style: TextStyle(
+                                                    color: Colors.white))
+                                          ],
+                                        )
+                                      ],
                                     ),
-                                    Row(
-                                      children: [Text("Pegawai")],
-                                    ),
-                                    Row(
-                                      children: [Text("Pegawai@gmail.com")],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        )),
+                                  )
+                                ],
+                              ),
+                            )),
                       ],
                     )),
                     SizedBox(height: 20),
-                    ElevatedButton(
-                        onPressed: null, child: Text("Change Password")),
-                    ElevatedButton(
-                        onPressed: null, child: Text("Change Email")),
-                    ElevatedButton(
-                        onPressed: () async {
-                          logOut();
-                        },
-                        child: Text("Logout"))
+                    Center(
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                              onPressed: null, child: Text("Change Password")),
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                              onPressed: null, child: Text("Change Email")),
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                              onPressed: () async {
+                                logOut();
+                              },
+                              child: Text("Logout"))
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(),
+                    ),
+                    Row(
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(
+                                    builder: (context) => HistoryPage()))
+                                .then((value) {
+                              setState(() {});
+                            });
+                          },
+                          icon: Icon(Icons.book),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(
+                                    builder: (context) => HomePage()))
+                                .then((value) {
+                              setState(() {});
+                            });
+                          },
+                          icon: Icon(Icons.home),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(
+                                    builder: (context) => SettingPage()))
+                                .then((value) {
+                              setState(() {});
+                            });
+                          },
+                          icon: Icon(Icons.settings),
+                        ),
+                      ],
+                    )
+
                     // Text("Riwayat Presensi"),
                     // Expanded(
                     //   child: ListView.builder(
